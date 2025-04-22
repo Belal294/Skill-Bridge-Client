@@ -11,22 +11,27 @@ import ActivateAccount from "../components/Registration/ActivateAccount";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Profile from "../pages/Profile";
 import ResendActivation from "../pages/ResendActivation";
+import ResetPassword from "../pages/ResetPassword";
+import ResetPasswordConfirm from "../pages/ResetPasswordConfirm";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Routes */}
+      {/*  Public Routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="shop" element={<Shop />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="/resend-activation" element={<ResendActivation/>}/>
+        <Route path="/reset-password" element={<ResetPassword />} />
+        {/*  This matches Django's default reset link */}
+        <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
+        <Route path="/resend-activation" element={<ResendActivation />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
       </Route>
 
-      {/* Private Dashboard Routes */}
+      {/*  Private Dashboard Routes */}
       <Route
         path="dashboard"
         element={

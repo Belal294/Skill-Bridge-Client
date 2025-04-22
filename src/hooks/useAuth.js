@@ -40,11 +40,11 @@ const useAuth = () => {
     } catch (error) {
       console.log("Error Fetching user", error);
     }
-  }, [authTokens]); // Wrap with useCallback and include authTokens as dependency
+  }, [authTokens]);
 
   useEffect(() => {
     if (authTokens) fetchUserProfile();
-  }, [authTokens, fetchUserProfile]); // Now fetchUserProfile is memoized
+  }, [authTokens, fetchUserProfile]);
 
   const updateUserProfile = async (data) => {
     setErrorMsg("");
@@ -59,7 +59,6 @@ const useAuth = () => {
     }
   };
 
-  // Password Change
   const changePassword = async (data) => {
     setErrorMsg("");
     try {
@@ -73,25 +72,21 @@ const useAuth = () => {
     }
   };
 
-  // Login User
   const loginUser = async (userData) => {
     setErrorMsg("");
     try {
       const response = await apiClient.post("/auth/jwt/create/", userData);
       setAuthTokens(response.data);
       localStorage.setItem("authTokens", JSON.stringify(response.data));
-  
-      // After login set user
+
       await fetchUserProfile();
-  
-      return true; 
+      return true;
     } catch (error) {
-      setErrorMsg(error.response.data?.detail);
-      return false; 
+      setErrorMsg(error.response?.data?.detail || "Login failed");
+      return false;
     }
   };
-  
-  // Register User
+
   const registerUser = async (userData) => {
     setErrorMsg("");
     try {
@@ -102,36 +97,54 @@ const useAuth = () => {
           "Registration successfull. Check your email to activate your account.",
       };
     } catch (error) {
-      if (error.response && error.response.data) {
-        const errorMessage = Object.values(error.response.data)
-          .flat()
-          .join("\n");
-        setErrorMsg(errorMessage);
-        return { success: false, message: errorMessage };
-      }
-      setErrorMsg("Registration failed. Please try again");
-      return {
-        success: false,
-        message: "Registration failed. Please try again",
-      };
+      return handleAPIError(error, "Registration failed. Please try again");
     }
   };
 
-  // Logout User
   const logoutUser = () => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
   };
 
-  return { 
-    user, 
-    errorMsg, 
-    loginUser, 
-    registerUser, 
+  //  Reset Password
+  const resetPassword = async (data) => {
+    setErrorMsg("");
+    try {
+      await apiClient.post("/auth/users/reset_password/", data);
+      return {
+        success: true,
+        message: "Password reset email sent. Please check your inbox.",
+      };
+    } catch (error) {
+      return handleAPIError(error, "Failed to send password reset email.");
+    }
+  };
+
+  //  Confirm Password Reset
+  const resetPasswordConfirm = async (data) => {
+    setErrorMsg("");
+    try {
+      await apiClient.post("/auth/users/reset_password_confirm/", data);
+      return {
+        success: true,
+        message: "Password has been reset successfully.",
+      };
+    } catch (error) {
+      return handleAPIError(error, "Failed to reset password.");
+    }
+  };
+
+  return {
+    user,
+    errorMsg,
+    loginUser,
+    registerUser,
     logoutUser,
     updateUserProfile,
-    changePassword, 
+    changePassword,
+    resetPassword,
+    resetPasswordConfirm,
   };
 };
 
