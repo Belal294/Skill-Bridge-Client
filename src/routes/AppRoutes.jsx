@@ -1,4 +1,6 @@
-import { Route, Routes } from "react-router";
+
+// src/routes/AppRoutes.jsx
+import { Route, Routes } from "react-router-dom";
 import About from "../pages/About";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
@@ -13,11 +15,15 @@ import Profile from "../pages/Profile";
 import ResendActivation from "../pages/ResendActivation";
 import ResetPassword from "../pages/ResetPassword";
 import ResetPasswordConfirm from "../pages/ResetPasswordConfirm";
+import ConfirmOrderPage from "../pages/ConfirmOrderPage";
+import Orders from "../pages/orders";
+import PaymentPage from "../pages/PaymentPage";
+import PaymentStatus from "../pages/PaymentStatus";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/*  Public Routes */}
+      {/* Public Routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
@@ -25,13 +31,13 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        {/*  This matches Django's default reset link */}
         <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
         <Route path="/resend-activation" element={<ResendActivation />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
+        <Route path="/payment/status" element={<PaymentStatus />} />
       </Route>
 
-      {/*  Private Dashboard Routes */}
+      {/* Private Dashboard Routes */}
       <Route
         path="dashboard"
         element={
@@ -42,6 +48,9 @@ const AppRoutes = () => {
       >
         <Route index element={<Dashboard />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="confirm-order" element={<ConfirmOrderPage />} />
+        <Route path="payment" element={<PaymentPage />} />
       </Route>
     </Routes>
   );

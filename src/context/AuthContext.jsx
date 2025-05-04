@@ -13,8 +13,3 @@ export const AuthProvider = ({ children }) => {
 
 export default AuthContext;
 
-/* 
-{a: 10, b: 20}
-a, b
-{a, b}
-*/
