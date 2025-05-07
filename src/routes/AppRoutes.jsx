@@ -13,7 +13,6 @@ import ResendActivation from "../pages/ResendActivation";
 import ResetPassword from "../pages/ResetPassword";
 import ResetPasswordConfirm from "../pages/ResetPasswordConfirm";
 import ConfirmOrderPage from "../pages/ConfirmOrderPage";
-import Orders from "../pages/orders";
 import PaymentPage from "../pages/PaymentPage";
 import PaymentStatus from "../pages/PaymentStatus";
 import AddProduct from "../pages/AddProduct";
@@ -24,6 +23,7 @@ import MyReviews from "../components/Reviews/MyReview";
 import ReviewedServices from "../components/Reviews/ReviewedServices";
 import MyReviewDetail from "../components/Reviews/MyReviewDetail";
 import ContactForm from "../layouts/ContactForm";
+import Order from "../components/Dashboard/Order";
 
 const AppRoutes = () => {
   return (
@@ -53,7 +53,7 @@ const AppRoutes = () => {
       >
         <Route path="" element={<Dashboard />} /> 
         <Route path="profile" element={<Profile />} />
-        <Route path="orders" element={<Orders />} />
+        <Route path="orders" element={<Order />} />
         <Route path="confirm-order" element={<ConfirmOrderPage />} />
         <Route path="payment" element={<PaymentPage />} />
         <Route path="products/add" element={<AddProduct />} />
