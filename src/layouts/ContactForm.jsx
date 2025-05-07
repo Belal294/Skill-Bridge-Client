@@ -1,0 +1,96 @@
+import img from '../assets/carosel/banner-image-bg.jpg';
+
+const ContactForm = () => {
+  return (
+    <div className="w-full min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-4xl mx-auto shadow-lg border border-emerald-100 rounded-lg overflow-hidden">
+        {/* Banner/Header */}
+        <div
+          className="p-10 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${img})`,
+          }}
+        >
+          <h2 className="text-4xl font-bold text-teal-600">Get in Touch</h2>
+          <p className="text-md mt-2 text-teal-600">
+            We'd love to hear from you. Fill out the form below.
+          </p>
+        </div>
+
+        {/* Form */}
+        <form
+          action="/contact/submit"
+          method="POST"
+          className="p-8 bg-white grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div className="col-span-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div className="col-span-2">
+            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+              Subject
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              placeholder="What is this regarding?"
+            />
+          </div>
+
+          <div className="col-span-2">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              required
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              placeholder="Your message here..."
+            ></textarea>
+          </div>
+
+          <div className="col-span-2 flex justify-end">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition duration-300 shadow-md"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ContactForm;

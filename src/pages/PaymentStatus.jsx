@@ -1,7 +1,5 @@
-// src/pages/PaymentStatus.jsx
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-
 import authApiClient from '../services/auth-api-client';
 
 const PaymentStatus = () => {
@@ -10,34 +8,36 @@ const PaymentStatus = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const order_uuid = searchParams.get('order_uuid');
-  const alert = searchParams.get('alert'); // success | cancel | failed
+  const order_id = searchParams.get('order_id');
+  const alert = searchParams.get('alert'); 
 
   useEffect(() => {
     const confirmPayment = async () => {
-      if (alert === 'success' && order_uuid) {
+      if (alert === 'success' && order_id) {
         try {
-          const response = await authApiClient.post('/payment-success/', { order_uuid });
-          if (response.status === 200 && response.data && response.data.message === 'Payment marked as successful') {
-            setMessage(' Payment Successful!');
+          const response = await authApiClient.post('/payment-success/', { order_id }); 
+
+          if (response.status === 200) {
+            setMessage('Payment Successful!');
           } else {
-            setMessage(' Payment completed, but something went wrong while updating the order.');
-            console.error('Backend payment success endpoint returned an error:', response);
+            setMessage('Payment completed, but something went wrong while updating the order.');
+            console.error('Backend payment success endpoint returned an unexpected response:', response);
           }
         } catch (error) {
-          setMessage('⚠️ An unexpected error occurred while confirming payment.');
+          setMessage('An unexpected error occurred while confirming payment.');
           console.error('Error confirming payment:', error);
         }
       } else if (alert === 'cancel') {
-        setMessage('❌ Payment canceled.');
+        setMessage('Payment canceled.');
       } else {
-        setMessage('⚠️ Payment failed or something went wrong.');
+        setMessage('Payment failed or something went wrong.');
       }
+
       setLoading(false);
     };
 
     confirmPayment();
-  }, [alert, order_uuid]);
+  }, [alert, order_id]);
 
   const handleGoToOrders = () => {
     navigate('/dashboard/orders');

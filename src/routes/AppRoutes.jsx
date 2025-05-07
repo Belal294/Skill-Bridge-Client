@@ -1,5 +1,3 @@
-
-// src/routes/AppRoutes.jsx
 import { Route, Routes } from "react-router-dom";
 import About from "../pages/About";
 import MainLayout from "../layouts/MainLayout";
@@ -19,6 +17,14 @@ import ConfirmOrderPage from "../pages/ConfirmOrderPage";
 import Orders from "../pages/orders";
 import PaymentPage from "../pages/PaymentPage";
 import PaymentStatus from "../pages/PaymentStatus";
+import AddProduct from "../pages/AddProduct";
+import Categories from "../pages/CategoriesSection";
+import AddCategory from "../pages/AddCategories";
+import NotificationList from "../components/notifications/NotificationList";
+import MyReviews from "../components/Reviews/MyReview";
+import ReviewedServices from "../components/Reviews/ReviewedServices";
+import MyReviewDetail from "../components/Reviews/MyReviewDetail";
+import ContactForm from "../layouts/ContactForm";
 
 const AppRoutes = () => {
   return (
@@ -26,6 +32,7 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<ContactForm />} />
         <Route path="about" element={<About />} />
         <Route path="shop" element={<Shop />} />
         <Route path="login" element={<Login />} />
@@ -39,18 +46,27 @@ const AppRoutes = () => {
 
       {/* Private Dashboard Routes */}
       <Route
-        path="dashboard"
+        path="dashboard/*"  
         element={
           <PrivateRoute>
             <DashboardLayout />
           </PrivateRoute>
         }
       >
-        <Route index element={<Dashboard />} />
+        <Route path="" element={<Dashboard />} /> {/* Empty path for default dashboard */}
         <Route path="profile" element={<Profile />} />
         <Route path="orders" element={<Orders />} />
         <Route path="confirm-order" element={<ConfirmOrderPage />} />
         <Route path="payment" element={<PaymentPage />} />
+        <Route path="products/add" element={<AddProduct />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="categories/add" element={<AddCategory />} />
+        <Route path="notifications" element={<NotificationList />} />
+        
+        {/* Reviews Routes */}
+        <Route path="reviews" element={<ReviewedServices />} />
+        <Route path="services/:serviceId/reviews/my_reviews" element={<MyReviews />} /> 
+        <Route path="services/:serviceId/my-review" element={<MyReviewDetail />} />
       </Route>
     </Routes>
   );

@@ -6,29 +6,22 @@ const PaymentPage = () => {
   const location = useLocation();
   const { orderId, product } = location.state || {};
   const [error, setError] = useState(null);
-  console.log("orderId:", orderId);
-  console.log("products:", product);
 
   useEffect(() => {
-   
-    console.log("location.state inside useEffect:", location.state);
-    const { orderId, product } = location.state || {};
-  
     if (!orderId || !product) {
       setError("Missing order or product information.");
       return;
     }
-  
-  
+
     const initiateStripeCheckout = async () => {
       try {
         const response = await authApiClient.post("/create-checkout-session/", {
-          order_uuid: orderId,// orderId should be the uuid
+          order_id: orderId, // ✅ changed from order_uuid to order_id (integer)
           service_id: product.id,
         });
-  
+
         const { checkout_url } = response.data;
-  
+
         if (checkout_url) {
           window.location.href = checkout_url;
         } else {
@@ -39,11 +32,9 @@ const PaymentPage = () => {
         setError(err.response?.data?.error || "Payment failed. Please try again.");
       }
     };
-  
+
     initiateStripeCheckout();
-  }, [location.state]);  
-  
-  
+  }, [orderId, product]);
 
   if (!orderId || !product || error) {
     return (

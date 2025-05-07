@@ -1,13 +1,5 @@
-import {
-  FiBarChart2,
-  FiPackage,
-  FiPlusCircle,
-  FiShoppingCart,
-  FiStar,
-  FiTag,
-  FiUsers,
-} from "react-icons/fi";
-import { Link } from "react-router-dom"; 
+import { FiBarChart2, FiPackage, FiPlusCircle, FiShoppingCart, FiStar, FiTag, FiUsers } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menuItems = [
@@ -17,21 +9,16 @@ const Sidebar = () => {
     { to: "/dashboard/categories", icon: FiTag, label: "Categories" },
     { to: "/dashboard/categories/add", icon: FiPlusCircle, label: "Add Category" },
     { to: "/dashboard/orders", icon: FiShoppingCart, label: "Orders" },
-    { to: "/dashboard/reviews", icon: FiStar, label: "Reviews" },
-    { to: "/dashboard/users", icon: FiUsers, label: "Users" },
+    { to: "/dashboard/reviews", icon: FiStar, label: "Reviews" }, // Updated link
+    { to: "/dashboard/profile", icon: FiUsers, label: "Profile" },
   ];
 
   return (
     <div className="drawer-side z-10">
-      <label
-        htmlFor="drawer-toggle"
-        aria-label="close sidebar"
-        className="drawer-overlay"
-      ></label>
+      <label htmlFor="drawer-toggle" aria-label="close sidebar" className="drawer-overlay"></label>
       <aside className="menu bg-base-200 w-64 min-h-full p-4 text-base-content">
         {/* Sidebar header */}
         <div className="flex items-center gap-2 mb-6 px-2">
-          {/* Skill-Bridge as a Link to Home */}
           <Link to="/">
             <h1 className="text-xl font-bold">Skill-Bridge</h1>
           </Link>

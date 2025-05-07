@@ -1,34 +1,19 @@
-// components/ProductItem.jsx
-
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import authApiClient from "../../src/services/auth-api-client";
 import defaultImage from "../assets/carosel/defalut.jpg";
 
 const ProductItem = ({ product }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = () => {
     setLoading(true);
-    const now = new Date().toISOString();
-
     try {
-      const response = await authApiClient.post("/orders/", {
-        service_id: product.id,  
-        order_date: now        
-      });
-
-      console.log("Order created successfully:", response.data);
-
       navigate("/dashboard/confirm-order", {
-        state: { orderId: response.data.id, product },
+        state: { product },
       });
-    } catch (error) {
-      console.error("Order creation failed:", error.response?.data || error);
-      alert("Login Required!!!");
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
 
@@ -36,7 +21,11 @@ const ProductItem = ({ product }) => {
     <div className="card bg-base-100 w-96 shadow-sm">
       <figure className="px-10 pt-10">
         <img
-          src={product?.images?.length > 0 ? product.images[0].image : defaultImage}
+          src={
+            product?.images?.length > 0
+              ? product.images[0].image
+              : defaultImage
+          }
           alt={product.title || "Product Image"}
           className="rounded-xl object-cover w-48 h-48"
         />
