@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import About from "../pages/About";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Shop from "../pages/services";
@@ -33,7 +32,6 @@ const AppRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactForm />} />
-        <Route path="about" element={<About />} />
         <Route path="shop" element={<Shop />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -53,7 +51,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
-        <Route path="" element={<Dashboard />} /> {/* Empty path for default dashboard */}
+        <Route path="" element={<Dashboard />} /> 
         <Route path="profile" element={<Profile />} />
         <Route path="orders" element={<Orders />} />
         <Route path="confirm-order" element={<ConfirmOrderPage />} />
