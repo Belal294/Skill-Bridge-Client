@@ -2,17 +2,17 @@ import img from '../assets/carosel/banner-image-bg.jpg';
 
 const ContactForm = () => {
   return (
-    <div className="w-full min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto shadow-lg border border-emerald-100 rounded-lg overflow-hidden">
+    <div className="w-full min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto shadow-lg border border-emerald-100 rounded-lg overflow-hidden">
         {/* Banner/Header */}
         <div
-          className="p-10 bg-cover bg-center"
+          className="p-6 sm:p-10 bg-cover bg-center text-center sm:text-left"
           style={{
             backgroundImage: `url(${img})`,
           }}
         >
-          <h2 className="text-4xl font-bold text-teal-600">Get in Touch</h2>
-          <p className="text-md mt-2 text-teal-600">
+          <h2 className="text-3xl sm:text-4xl font-bold text-teal-600">Get in Touch</h2>
+          <p className="text-sm sm:text-md mt-2 text-teal-600">
             We'd love to hear from you. Fill out the form below.
           </p>
         </div>
@@ -21,7 +21,7 @@ const ContactForm = () => {
         <form
           action="/contact/submit"
           method="POST"
-          className="p-8 bg-white grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="p-6 sm:p-8 bg-white grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
         >
           <div className="col-span-1">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -32,7 +32,7 @@ const ContactForm = () => {
               id="name"
               name="name"
               required
-              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-2 focus:ring-emerald-300 focus:outline-none"
               placeholder="Your name"
             />
           </div>
@@ -46,12 +46,12 @@ const ContactForm = () => {
               id="email"
               name="email"
               required
-              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-2 focus:ring-emerald-300 focus:outline-none"
               placeholder="your.email@example.com"
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-1 md:col-span-2">
             <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
               Subject
             </label>
@@ -60,29 +60,29 @@ const ContactForm = () => {
               id="subject"
               name="subject"
               required
-              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-2 focus:ring-emerald-300 focus:outline-none"
               placeholder="What is this regarding?"
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-1 md:col-span-2">
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
               Message
             </label>
             <textarea
               id="message"
               name="message"
-              rows="6"
+              rows="5"
               required
-              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-emerald-300 focus:outline-none"
+              className="w-full border border-emerald-200 rounded-md px-4 py-2 focus:ring-2 focus:ring-emerald-300 focus:outline-none"
               placeholder="Your message here..."
             ></textarea>
           </div>
 
-          <div className="col-span-2 flex justify-end">
+          <div className="col-span-1 md:col-span-2 flex justify-end">
             <button
               type="submit"
-              className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition duration-300 shadow-md"
+              className="w-full sm:w-auto px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition duration-300 shadow-md"
             >
               Send Message
             </button>

@@ -1,37 +1,52 @@
-import { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
+// src/hooks/useFetchProduct.js
+import { useState, useEffect } from "react";
+import apiClient from "../services/api-client"; // Adjust path as needed
 
-const useFetchProduct = (
-  currentPage,
-  priceRange,
-  selectedCategory,
-  searchQuery,
-  sortOrder
-) => {
+const useFetchProduct = (currentPage, priceRange, selectedCategory, searchQuery, sortOrder) => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const url = `/services/?price__gt=${priceRange[0]}&price__lt=${priceRange[1]}&page=${currentPage}&category_id=${selectedCategory}&search=${searchQuery}&ordering=${sortOrder}`;
+      setErrorMessage("");
+
+      const queryParams = new URLSearchParams({
+        price__gte: priceRange[0],
+        price__lte: priceRange[1],
+        page: currentPage,
+        search: searchQuery,
+        ordering: sortOrder,
+      });
+
+      if (selectedCategory) {
+        queryParams.append("category", selectedCategory); // Must match backend filterset_fields
+      }
+
       try {
-        const response = await apiClient.get(url);
-        const data = await response.data;
+        const response = await apiClient.get(`/services/?${queryParams}`);
+        const data = response.data;
+
+        if (data.results.length === 0) {
+          setErrorMessage("No products found for the selected filters.");
+        }
 
         setProducts(data.results);
-        setTotalPages(Math.ceil(data.count / data.results.length));
+        setTotalPages(Math.ceil(data.count / 10));
       } catch (error) {
-        console.log(error);
+        setErrorMessage("Error fetching products.");
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, [currentPage, priceRange, selectedCategory, searchQuery, sortOrder]);
 
-  return { products, loading, totalPages };
+  return { products, loading, totalPages, errorMessage };
 };
 
 export default useFetchProduct;
