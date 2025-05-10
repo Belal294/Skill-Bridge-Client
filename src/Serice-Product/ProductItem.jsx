@@ -13,13 +13,14 @@ const ProductItem = ({ product }) => {
         state: { product },
       });
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   return (
-    <div className="card bg-base-100 w-96 shadow-sm">
-      <figure className="px-10 pt-10">
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-sm mx-auto group overflow-hidden mt-6">
+      {/* Image Section */}
+      <div className="overflow-hidden h-56 bg-gray-100">
         <img
           src={
             product?.images?.length > 0
@@ -27,26 +28,27 @@ const ProductItem = ({ product }) => {
               : defaultImage
           }
           alt={product.title || "Product Image"}
-          className="rounded-xl object-cover w-48 h-48"
+          className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
         />
-      </figure>
-      <div className="card-body items-center text-center">
-        <h2 className="card-title">{product.title}</h2>
-        <h3 className="font-bold text-xl text-red-700">${product.price}</h3>
-        <p className="text-gray-600">{product.description}</p>
-        <div className="card-actions mt-4 w-full">
-          <button
-            className="btn btn-secondary w-full"
-            onClick={handleBuyNow}
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="loading loading-spinner loading-sm"></span>
-            ) : (
-              "Buy Now"
-            )}
-          </button>
-        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-5 text-center space-y-3">
+        <h2 className="text-xl font-semibold text-gray-800">{product.title}</h2>
+        <h3 className="text-lg font-bold text-red-600">${product.price}</h3>
+        <p className="text-gray-600 text-sm line-clamp-3">{product.description}</p>
+
+        <button
+          className="btn btn-secondary w-full"
+          onClick={handleBuyNow}
+          disabled={loading}
+        >
+          {loading ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            "Buy Now"
+          )}
+        </button>
       </div>
     </div>
   );

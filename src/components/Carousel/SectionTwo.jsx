@@ -4,6 +4,7 @@ import img2 from '../../assets/Template/assets/images/services-02.jpg';
 import img3 from '../../assets/Template/assets/images/services-03.jpg';
 import img4 from '../../assets/Template/assets/images/services-04.jpg';
 import img5 from '../../assets/Template/assets/images/faqs-image.jpg';
+import { motion } from "framer-motion";
 
 const SectionTwo = () => {
     return (
@@ -52,14 +53,20 @@ const SectionTwo = () => {
                 </div>
             </div>
 
-            {/* Right Side - Centered Static Image */}
+
             <div className="w-full md:w-1/2 flex justify-center items-center">
-                <img
-                    src={img5}
-                    alt="FAQ Illustration"
-                    className="rounded-lg shadow-lg w-full max-w-md md:max-w-[430px]" // 10px wider than 420px (standard md)
-                />
+            <motion.img
+                src={img5}
+                alt="FAQ Illustration"
+                className="rounded-lg shadow-lg w-full max-w-md md:max-w-[430px]"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            />
             </div>
+
         </div>
     );
 };

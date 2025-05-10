@@ -1,4 +1,5 @@
 import { FaAngleRight } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const CategoryItems = ({ index, category }) => {
   const gradients = [
@@ -12,12 +13,14 @@ const CategoryItems = ({ index, category }) => {
   const firstLetter = category?.name?.charAt(0)?.toUpperCase() || "C";
   const itemCount = category?.service_count ?? 0;
   const name = category?.name || "Untitled";
-  // const description =
-  //   category?.description || "No description available for this category.";
 
   return (
-    <div
+    <motion.div
       className={`rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer bg-gradient-to-br ${gradient}`}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="p-6 flex flex-col h-full">
         {/* Icon & Count */}
@@ -39,12 +42,15 @@ const CategoryItems = ({ index, category }) => {
         </p>
 
         {/* Button */}
-        <button className="text-pink-500 font-bold hover:text-pink-600 transition-colors flex items-center gap-1 mt-auto">
+        <motion.button
+          className="text-pink-500 font-bold hover:text-pink-600 transition-colors flex items-center gap-1 mt-auto"
+          whileHover={{ scale: 1.1 }}
+        >
           Explore
           <FaAngleRight />
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

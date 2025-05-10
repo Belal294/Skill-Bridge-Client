@@ -9,6 +9,8 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import CarouselSlide from "./CarouselSlide";
+
+// Image assets
 import book from "../../assets/carosel/carosel1.jpg";
 import fashion from "../../assets/carosel/carosel2.jpg";
 import technology from "../../assets/carosel/carousel3.jpg";
@@ -33,31 +35,28 @@ const HeroCarousel = () => {
   ];
 
   return (
-    <>
-      <Swiper
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={false}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <CarouselSlide
-              title={slide.title}
-              subtitle={slide.subtitle}
-              image={slide.image}
-            />
-
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Swiper
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+      }}
+      pagination={{
+        clickable: true,
+      }}
+      navigation={false}
+      modules={[Autoplay, Pagination, Navigation]}
+      className="mySwiper"
+    >
+      {slides.map((slide, index) => (
+        <SwiperSlide key={index}>
+          <CarouselSlide
+            title={slide.title}
+            subtitle={slide.subtitle}
+            image={slide.image}
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 
