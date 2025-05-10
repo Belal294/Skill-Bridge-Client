@@ -14,7 +14,7 @@ const ActivateAccount = () => {
       .post("/auth/users/activation/", { uid, token })
       .then(() => {
         setMessage("Account activated successfully!");
-        setTimeout(() => navigate("/login"), 3000); 
+        setTimeout(() => navigate("/login"), 2000); 
       })
       .catch((error) => {
         setError("Something went wrong. Please check your activation link.");
