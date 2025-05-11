@@ -1,5 +1,6 @@
+// src/components/ActivateAccount.jsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import ErroAlert from "../ErroAlert";
 import apiClient from "../../services/api-client";
 
@@ -10,8 +11,11 @@ const ActivateAccount = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Send only relative URL to backend
+    const activationLink = `#/activate/${uid}/${token}`;
+
     apiClient
-      .post("/auth/users/activation/", { uid, token })
+      .post("/auth/users/activation/", { uid, token, link: activationLink }) // Passing relative URL
       .then(() => {
         setMessage("Account activated successfully!");
         setTimeout(() => navigate("/login"), 2000); 
@@ -20,7 +24,7 @@ const ActivateAccount = () => {
         setError("Something went wrong. Please check your activation link.");
         console.log(error);
       });
-  }, [token, uid, navigate]);
+  }, [uid, token, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-base-200">
