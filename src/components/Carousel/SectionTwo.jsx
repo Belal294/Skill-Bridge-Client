@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const SectionTwo = () => {
     return (
-        <div className="flex flex-col md:flex-row items-stretch gap-6 p-6">
+        <div className="flex flex-col md:flex-row items-stretch gap-6 p-6 mt-5 mb-5 bg-gradient-to-br from-[#d9d6f9] via-white to-[#d9d6f9] shadow-xl rounded-2xl">
             {/* Left Side - Accordion with images */}
             <div className="w-full md:w-1/2 space-y-4">
                 <div className="collapse bg-base-100 border border-base-300">

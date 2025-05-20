@@ -24,6 +24,9 @@ import ReviewedServices from "../components/Reviews/ReviewedServices";
 import MyReviewDetail from "../components/Reviews/MyReviewDetail";
 import ContactForm from "../layouts/ContactForm";
 import Order from "../components/Dashboard/Order";
+import AboutUs from "../pages/AboutUs";
+import ContactPage from "../components/CarouselSection/ContactPage";
+import AboutUsPage from "../components/CarouselSection/AboutPage";
 
 const AppRoutes = () => {
   return (
@@ -31,7 +34,7 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<ContactForm />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="shop" element={<Shop />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -40,6 +43,8 @@ const AppRoutes = () => {
         <Route path="/resend-activation" element={<ResendActivation />} />
         <Route path="/activate/:uid/:token" element={<ActivateAccount />} />
         <Route path="/payment/status" element={<PaymentStatus />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="/about" element={<AboutUsPage />} />
       </Route>
 
       {/* Private Dashboard Routes */}
@@ -58,8 +63,10 @@ const AppRoutes = () => {
         <Route path="payment" element={<PaymentPage />} />
         <Route path="products/add" element={<AddProduct />} />
         <Route path="categories" element={<Categories />} />
+        <Route path="categories" element={<Categories />} />
         <Route path="categories/add" element={<AddCategory />} />
         <Route path="notifications" element={<NotificationList />} />
+        <Route path="shop" element={<Shop />} />
         
         {/* Reviews Routes */}
         <Route path="reviews" element={<ReviewedServices />} />

@@ -7,18 +7,34 @@ import SectionOne from '../components/Carousel/SectionOne';
 import SectionTwo from '../components/Carousel/SectionTwo';
 import ContactForm from '../layouts/ContactForm';
 import HeroCarousel from '../components/Carousel/HeroCarousel';
+import Footer from '../components/CarouselSection/Footer';
+import HeroSection from '../components/CarouselSection/HeroSection'
+import ClientsSection from '../components/CarouselSection/ClientsSection';
+import FeaturesSection from '../components/CarouselSection/FeaturesSection';
+import CategorySection from '../components/CarouselSection/CategorySection';
+import AccountProfileSection from '../components/CarouselSection/AccountProfileSection';
+import TestimonialsSection from '../components/CarouselSection/TestimonialsSection';
 
 const Home = () => {
   return (
     <div>
-      <HeroCarousel />
-      <Features />
-      <SectionOne />
-      <Category />
-      <Services />
+      <HeroSection/>
+      {/* <HeroCarousel /> */}
+      
+      {/* <Features /> */}
+      <ClientsSection/>
+      {/* <SectionOne /> */}
+      <FeaturesSection/>
+      {/* <Category /> */}
+      <CategorySection/>
+      {/* <Services /> */}
+      <AccountProfileSection/>
+      <TestimonialsSection/>
       <SectionTwo />
-      <DiscountSection />
-      <ContactForm />
+      {/* <DiscountSection /> */}
+      {/* <ContactForm /> */}
+      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 };

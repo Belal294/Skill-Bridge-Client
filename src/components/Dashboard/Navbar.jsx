@@ -2,8 +2,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom"; 
 import useAuthContext from "../../hooks/useAuthContext";
 import { useEffect, useState } from "react";
-import authApiClient from "../../services/auth-api-client"; // 🔒 JWT-enabled axios
-import { IoNotificationsOutline } from "react-icons/io5"; // 🔔 notification icon
+import authApiClient from "../../services/auth-api-client"; // JWT-enabled axios
+import { IoNotificationsOutline } from "react-icons/io5"; // notification icon
 
 const Navbar = ({ sidebarOpen }) => {
   const { _user, logoutUser } = useAuthContext();
@@ -38,22 +38,20 @@ const Navbar = ({ sidebarOpen }) => {
         </label>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 flex items-center gap-4">
         <h2 className="text-lg font-semibold">Dashboard</h2>
       </div>
 
-      <div className="flex-none gap-3 items-center">
-        {/* 🔔 Notification Icon */}
-        <div className="relative">
-          <Link to="/dashboard/notifications" className="btn btn-ghost btn-circle">
-            <IoNotificationsOutline className="h-6 w-6" />
-            {unreadCount > 0 && (
-              <span className="badge badge-error badge-sm absolute -top-1 -right-1">
-                {unreadCount}
-              </span>
-            )}
-          </Link>
-        </div>
+      <div className="flex-none flex gap-3 items-center">
+        {/* Notification Icon */}
+        <Link to="/dashboard/notifications" className="btn btn-ghost btn-circle relative">
+          <IoNotificationsOutline className="h-6 w-6" />
+          {unreadCount > 0 && (
+            <span className="badge badge-error badge-sm absolute -top-1 -right-1">
+              {unreadCount}
+            </span>
+          )}
+        </Link>
 
         {/* User Dropdown */}
         <div className="dropdown dropdown-end">

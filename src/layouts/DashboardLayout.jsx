@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Navbar from "../components/Dashboard/Navbar";
 import Sidebar from "../components/Dashboard/Sidebar";
-import { Outlet } from "react-router";
+import OrderItem from '../components/Dashboard/DashboardComponents/OrderItem'
+import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,6 +30,8 @@ const DashboardLayout = () => {
         {/* Main content */}
         <main className="p-6">
           <Outlet />
+          {/* <DashboardCardItem/> */}
+          
         </main>
       </div>
 

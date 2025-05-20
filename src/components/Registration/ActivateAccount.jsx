@@ -1,4 +1,3 @@
-// src/components/ActivateAccount.jsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ErroAlert from "../ErroAlert";
@@ -11,11 +10,11 @@ const ActivateAccount = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Send only relative URL to backend
+
     const activationLink = `#/activate/${uid}/${token}`;
 
     apiClient
-      .post("/auth/users/activation/", { uid, token, link: activationLink }) // Passing relative URL
+      .post("/auth/users/activation/", { uid, token, link: activationLink })
       .then(() => {
         setMessage("Account activated successfully!");
         setTimeout(() => navigate("/login"), 2000); 

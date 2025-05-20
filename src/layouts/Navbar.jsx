@@ -14,15 +14,15 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const handleProtectedNavigation = (e, path) => {
-    if (!user) {
-      e.preventDefault();
-      alert("Please log in first!");
-    } else {
-      navigate(path);
-    }
-  };
-
+  // 🔒 Previously used to restrict access to routes like Categories & Services
+  // const handleProtectedNavigation = (e, path) => {
+  //   if (!user) {
+  //     e.preventDefault();
+  //     alert("Please log in first!");
+  //   } else {
+  //     navigate(path);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchUnread = async () => {
@@ -43,17 +43,16 @@ const Navbar = () => {
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
           <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow transition-all duration-500 ease-in-out">
             <li><Link to="/" className="transition duration-300 hover:translate-x-1">Home</Link></li>
-            <li><a onClick={(e) => handleProtectedNavigation(e, "/dashboard/categories")} className="transition duration-300 hover:translate-x-1 cursor-pointer">Categories</a></li>
-            <li><a onClick={(e) => handleProtectedNavigation(e, "/shop")} className="transition duration-300 hover:translate-x-1 cursor-pointer">Services</a></li>
+            {/* <li><Link to="/categories" className="transition duration-300 hover:translate-x-1">Categories</Link></li> */}
+            <li><Link to="/shop" className="transition duration-300 hover:translate-x-1">Services</Link></li>
+            <li><Link to="/about" className="transition duration-300 hover:translate-x-1">About Us</Link></li>
             <li><Link to="/contact" className="transition duration-300 hover:translate-x-1">Contact</Link></li>
-            {/* <li><Link to="/about" className="transition duration-300 hover:translate-x-1">About Us</Link></li> */}
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl hover:scale-105 transition duration-300">
@@ -64,17 +63,16 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li><Link to="/" className="hover:underline hover:text-primary transition duration-300">Home</Link></li>
-          <li><a onClick={(e) => handleProtectedNavigation(e, "/dashboard/categories")} className="hover:underline hover:text-primary transition duration-300 cursor-pointer">Categories</a></li>
-          <li><a onClick={(e) => handleProtectedNavigation(e, "/shop")} className="hover:underline hover:text-primary transition duration-300 cursor-pointer">Services</a></li>
+          {/* <li><Link to="/categories" className="hover:underline hover:text-primary transition duration-300">Categories</Link></li> */}
+          <li><Link to="/shop" className="hover:underline hover:text-primary transition duration-300">Services</Link></li>
+          <li><Link to="/about" className="hover:underline hover:text-primary transition duration-300">About Us</Link></li>
           <li><Link to="/contact" className="hover:underline hover:text-primary transition duration-300">Contact</Link></li>
-          {/* <li><Link to="/about" className="hover:underline hover:text-primary transition duration-300">About Us</Link></li> */}
         </ul>
       </div>
 
       <div className="navbar-end">
         {user ? (
           <div className="flex items-center gap-2">
-            
             <div className="relative">
               <Link to="/dashboard/notifications" className="btn btn-ghost btn-circle">
                 <IoNotificationsOutline className="h-6 w-6" />
