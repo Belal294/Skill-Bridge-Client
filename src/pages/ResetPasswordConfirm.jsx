@@ -1,44 +1,45 @@
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import apiClient from "../services/api-client";
+
 
 const ResetPasswordConfirm = () => {
   const { uid, token } = useParams();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
+
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setSuccessMsg("");
+    setErrorMsg("");
     try {
-      const response = await axios.post(
-        "https://skill-bridge-one.vercel.app/api/v1/auth/users/reset_password_confirm/",
-        {
-          uid,
-          token,
-          new_password: data.password,
-          re_new_password: data.confirmPassword,
-        }
-      );
+      const response = await apiClient.post("/auth/users/reset_password_confirm/", {
+        uid,
+        token,
+        new_password: data.password,
+        re_new_password: data.confirmPassword,
+      });
 
       if (response.status === 204 || response.status === 200) {
         setSuccessMsg("Password has been reset successfully. !!!");
-        setErrorMsg("");
         setTimeout(() => navigate("/login"), 2500);
       }
     } catch (error) {
       console.error("Reset error:", error.response?.data || error.message);
-      const detail = error.response?.data?.detail || "The link might be invalid or expired.";
+      const detail =
+        error.response?.data?.detail || "The link might be invalid or expired.";
       setErrorMsg(`❌ ${detail}`);
-      setSuccessMsg("");
     } finally {
       setLoading(false);
     }
@@ -60,7 +61,9 @@ const ResetPasswordConfirm = () => {
                 id="password"
                 type="password"
                 placeholder="••••••••"
-                className={`input input-bordered w-full ${errors.password ? "input-error" : ""}`}
+                className={`input input-bordered w-full ${
+                  errors.password ? "input-error" : ""
+                }`}
                 {...register("password", {
                   required: "Password is required",
                   minLength: { value: 8, message: "Password must be at least 8 characters" },
@@ -81,7 +84,9 @@ const ResetPasswordConfirm = () => {
                 id="confirmPassword"
                 type="password"
                 placeholder="••••••••"
-                className={`input input-bordered w-full ${errors.confirmPassword ? "input-error" : ""}`}
+                className={`input input-bordered w-full ${
+                  errors.confirmPassword ? "input-error" : ""
+                }`}
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import apiClient from "../services/api-client";
 
 const ResendActivation = () => {
   const [email, setEmail] = useState("");
@@ -14,8 +14,8 @@ const ResendActivation = () => {
     setError("");
 
     try {
-      const _response = await axios.post(
-        "https://skill-bridge-one.vercel.app/api/v1/auth/users/resend_activation/",
+      await apiClient.post(
+        "/auth/users/resend_activation/",
         { email }
       );
       setMessage("Activation email sent successfully!");

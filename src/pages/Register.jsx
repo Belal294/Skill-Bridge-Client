@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import useAuthContext from "../hooks/useAuthContext";
 import ErroAlert from "../components/ErroAlert";
 import { useState } from "react";
+import authApiClient from "../services/auth-api-client";
 
 const Register = () => {
   const { registerUser, errorMsg } = useAuthContext();
   const [successMsg, setSuccessMsg] = useState("");
-  const [registeredEmail, setRegisteredEmail] = useState(""); // store email
+  const [registeredEmail, setRegisteredEmail] = useState(""); 
   const [loading, setLoading] = useState(false);
 
   const {
@@ -25,7 +26,7 @@ const Register = () => {
       console.log(response);
       if (response.success) {
         setSuccessMsg(response.message);
-        setRegisteredEmail(data.email); // set email for resend use
+        setRegisteredEmail(data.email); 
       }
     } catch (error) {
       console.log("Registration failed", error);
@@ -35,40 +36,33 @@ const Register = () => {
   };
 
 
-  const handleResendActivation = async () => {
-    if (!registeredEmail) {
-      alert("No registered email found. Please register first.");
-      return;
+const handleResendActivation = async () => {
+  if (!registeredEmail) {
+    alert("No registered email found. Please register first.");
+    return;
+  }
+
+  try {
+    const res = await authApiClient.post("/auth/users/resend_activation/", {
+      email: registeredEmail,
+    });
+
+    if (res.status === 204 || res.status === 200) {
+      alert("✅ Activation email resent successfully!");
+    } else {
+      const result = res.data;
+      alert(result?.detail || result?.message || "❌ Failed to resend email.");
     }
-  
-    try {
-      const res = await fetch("https://skill-bridge-one.vercel.app/api/v1/auth/users/resend_activation/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: registeredEmail }),
-      });
-  
-      let result = null;
-      const text = await res.text(); // first try to read response as text
-  
-      // only try to parse if text is not empty
-      if (text) {
-        result = JSON.parse(text);
-      }
-  
-      if (res.ok) {
-        alert("✅ Activation email resent successfully!");
-      } else {
-        alert(result?.detail || result?.message || "❌ Failed to resend email.");
-      }
-    } catch (error) {
-      console.error("Resend activation error:", error);
-      alert("❌ Error resending activation email");
-    }
-  };
-  
+  } catch (error) {
+    console.error("Resend activation error:", error);
+    alert(
+      error?.response?.data?.detail ||
+        error?.response?.data?.message ||
+        "❌ Error resending activation email"
+    );
+  }
+};
+
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-base-200">

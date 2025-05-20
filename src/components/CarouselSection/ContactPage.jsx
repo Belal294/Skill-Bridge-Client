@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactPage = () => {
   return (
-    <div className="max-w-4xl mx-auto py-12 px-4">
+    <div className="max-w-6xl mx-auto py-12 px-4">
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold text-gray-800 mb-3">We're Here to Help You</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
@@ -11,39 +11,71 @@ const ContactPage = () => {
         </p>
       </div>
 
-      {/* Contact Form */}
-      <div className="mb-12">
-        <form className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+      {/* Flex Layout: Map + Form */}
+      <div className="flex flex-col md:flex-row gap-8 mb-12">
+        {/* Map on the Left */}
+        <div className="md:w-1/2 h-96 bg-gray-200 rounded-md relative overflow-hidden">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.3059445135!2d-74.25986613799748!3d40.69714941774136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1619826381244!5m2!1sen!2s"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            title="Our Location"
+          ></iframe>
+
+          {/* Map Controls */}
+          <div className="absolute top-2 right-2 flex space-x-1">
+            <button className="bg-white p-1 rounded shadow">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <button className="bg-white p-1 rounded shadow">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Contact Form on the Right */}
+        <div className="md:w-1/2">
+          <form className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 placeholder="Full name"
                 className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-            </div>
-            <div>
               <input
                 type="email"
                 placeholder="Email address"
                 className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-          </div>
-          <div>
             <textarea
               placeholder="Tell us how we can help"
               rows={6}
               className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded transition duration-200"
-          >
-            Send Your Message
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded transition duration-200"
+            >
+              Send Your Message
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* Contact Information */}
@@ -126,33 +158,6 @@ const ContactPage = () => {
           <p className="text-gray-600">
             Support: help@example.com
           </p>
-        </div>
-      </div>
-
-      {/* Map */}
-      <div className="h-80 bg-gray-200 rounded-md relative overflow-hidden">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.3059445135!2d-74.25986613799748!3d40.69714941774136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1619826381244!5m2!1sen!2s"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
-          title="Our Location"
-        ></iframe>
-        
-        {/* Map Controls */}
-        <div className="absolute top-2 right-2 flex space-x-1">
-          <button className="bg-white p-1 rounded shadow">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path>
-            </svg>
-          </button>
-          <button className="bg-white p-1 rounded shadow">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-            </svg>
-          </button>
         </div>
       </div>
     </div>

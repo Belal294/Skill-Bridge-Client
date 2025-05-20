@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Dashboard/Navbar";
 import Sidebar from "../components/Dashboard/Sidebar";
-import OrderItem from '../components/Dashboard/DashboardComponents/OrderItem'
 import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {

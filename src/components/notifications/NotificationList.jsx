@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import authApiClient from '../../services/auth-api-client';
+import { XIcon } from '../../pages/DashboardComponents/Icons'; 
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [deletingId, setDeletingId] = useState(null); // 🔁 Deleting state per notification
+  const [deletingId, setDeletingId] = useState(null);
 
   const fetchNotifications = async () => {
     try {
       const res = await authApiClient.get("/notifications/");
-      const data = Array.isArray(res.data) ? res.data : res.data.results;
+      const data = res.data?.results || [];
 
-      const completedOnly = (data || []).filter(n =>
-        n.message.toLowerCase().includes("completed")
-      );
+      // Optional: Filter only completed if needed
+      // const completedOnly = data.filter(n =>
+      //   n.message?.toLowerCase().includes("completed")
+      // );
 
-      const unique = [];
-      const messages = new Set();
-      for (const n of completedOnly) {
-        if (!messages.has(n.message)) {
-          unique.push(n);
-          messages.add(n.message);
-        }
-      }
-
-      setNotifications(unique);
+      setNotifications(data);
     } catch (err) {
       console.error("Failed to load notifications:", err);
     } finally {
@@ -66,14 +59,19 @@ const NotificationList = () => {
               className="p-3 border rounded bg-blue-50 flex justify-between items-start"
             >
               <div>
-                <div>{n.message}</div>
+                <div className="text-gray-800">{n.message}</div>
                 <div className="text-sm text-gray-500">
-                  {new Date(n.created_at).toLocaleString()}
+                  {n.created_at ? new Date(n.created_at).toLocaleString() : "Time not available"}
                 </div>
+                {n.order_status && (
+                  <div className="text-xs mt-1 text-blue-600 font-medium">
+                    Status: {n.order_status}
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => deleteNotification(n.id)}
-                className={`text-red-500 hover:text-red-700 text-sm flex items-center ${
+                className={`text-red-500 hover:text-red-700 text-sm flex items-center gap-1 ${
                   deletingId === n.id ? 'cursor-wait' : 'cursor-pointer'
                 }`}
                 disabled={deletingId === n.id}
@@ -81,10 +79,11 @@ const NotificationList = () => {
                 {deletingId === n.id ? (
                   <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
                 ) : (
-                  "Delete"
+                  <>
+                    <span className="cursor-pointer"><XIcon /></span>
+                  </>
                 )}
               </button>
-
             </li>
           ))}
         </ul>

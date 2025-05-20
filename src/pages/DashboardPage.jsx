@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Line } from "react-chartjs-2"
 import {
   Chart as ChartJS,
@@ -11,10 +11,9 @@ import {
   Filler,
   Legend,
 } from "chart.js"
-
+import authApiClient from "../services/auth-api-client"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend)
-
 
 const GavelIcon = () => (
   <svg
@@ -229,27 +228,32 @@ const ImageIcon = () => (
 )
 
 function FreelancerDashboard() {
+  const [data, setData] = useState(null)
   const chartRef = useRef(null)
 
+  useEffect(() => {
+    authApiClient
+      .get("/api/v1/freelancer-dashboard/")
+      .then(res => {
+        setData(res.data)
+        console.log("check data", res.data)
+      })
+      .catch(err => console.error("Failed to fetch dashboard data", err))
+  }, [])
 
   const chartData = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: data ? data.timeline_labels : [],
     datasets: [
       {
-        fill: true,
         label: "Profile Views",
-        data: [195, 125, 210, 350, 205, 250],
-        borderColor: "rgb(59, 130, 246)",
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        data: data ? data.profile_views : [],
+        fill: true,
+        borderColor: "#6366f1",
+        backgroundColor: "rgba(99, 102, 241, 0.2)",
         tension: 0.4,
-        pointBackgroundColor: "rgb(59, 130, 246)",
-        pointBorderColor: "#fff",
-        pointBorderWidth: 2,
-        pointRadius: 5,
       },
     ],
   }
-
 
   const chartOptions = {
     responsive: true,
@@ -295,7 +299,6 @@ function FreelancerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-4 md:p-6">
-   
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Howdy, Tom!</h1>
@@ -310,14 +313,14 @@ function FreelancerDashboard() {
           </div>
         </div>
 
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-         
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 mb-1">Task Bids Won</p>
-                <h3 className="text-3xl font-bold">22</h3>
+                <h3 className="text-3xl font-bold">
+                  {data ? data.task_bids_won : "Loading..."}
+                </h3>
               </div>
               <div className="p-3 rounded-md bg-emerald-50">
                 <span className="text-emerald-500">
@@ -327,12 +330,13 @@ function FreelancerDashboard() {
             </div>
           </div>
 
-       
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 mb-1">Jobs Applied</p>
-                <h3 className="text-3xl font-bold">4</h3>
+                <h3 className="text-3xl font-bold">
+                  {data ? data.jobs_applied : "Loading..."}
+                </h3>
               </div>
               <div className="p-3 rounded-md bg-pink-50">
                 <span className="text-pink-500">
@@ -342,12 +346,13 @@ function FreelancerDashboard() {
             </div>
           </div>
 
-          {/* Reviews */}
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 mb-1">Reviews</p>
-                <h3 className="text-3xl font-bold">28</h3>
+                <h3 className="text-3xl font-bold">
+                  {data ? data.reviews : "Loading..."}
+                </h3>
               </div>
               <div className="p-3 rounded-md bg-amber-50">
                 <span className="text-amber-500">

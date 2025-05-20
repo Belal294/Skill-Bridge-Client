@@ -1,23 +1,56 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import axios from "axios";
+import apiClient from "../services/api-client";
 
 const ResetPassword = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const emailValue = watch("email");
 
   const onSubmit = async (data) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      setError("Your email is not valid");
+      setMessage("");
+      return;
+    }
+
+    setError("");
+    setMessage("");
+    setLoading(true);
+
     try {
-      const _response = await axios.post("https://skill-bridge-one.vercel.app/api/v1/auth/users/reset_password/", {
+      console.log("Sending request with email:", data.email);
+      const response = await apiClient.post("/auth/users/reset_password/", {
         email: data.email,
       });
-      setMessage(" Password reset email sent. Please check your inbox.");
-      setError("");
+      console.log("Response from API:", response);
+      setMessage("Password reset email sent. Please check your inbox.");
     } catch (err) {
-      console.error(err);
-      setError("Failed to send password reset email. ❌");
+      console.error("Error caught in catch block:", err);
+      console.error("Error response data:", err.response?.data);
+
+      if (
+        err.response?.data?.email &&
+        Array.isArray(err.response.data.email) &&
+        err.response.data.email.includes("User with this email does not exist.")
+      ) {
+        setError("Not Found Your Email. Try Again..");
+      } else if (
+        err.response?.data?.detail &&
+        err.response.data.detail === "Not found."
+      ) {
+        setError("Not Found Your Email. Try Again..");
+      } else {
+        setError("Failed to send password reset email. ❌");
+      }
+
       setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,7 +71,13 @@ const ResetPassword = () => {
                 type="email"
                 placeholder="name@example.com"
                 className={`input input-bordered w-full ${errors.email ? "input-error" : ""}`}
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
               />
               {errors.email && (
                 <span className="label-text-alt text-error">
@@ -47,8 +86,16 @@ const ResetPassword = () => {
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Send Reset Link
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              disabled={!emailValue || errors.email || loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Send Reset Link"
+              )}
             </button>
           </form>
 

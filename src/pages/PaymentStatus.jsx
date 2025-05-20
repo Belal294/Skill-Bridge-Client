@@ -40,7 +40,7 @@ const PaymentStatus = () => {
   }, [alert, order_id]);
 
   const handleGoToOrders = () => {
-    navigate('/dashboard/orders');
+    navigate('/dashboard');
   };
 
   return (
@@ -55,7 +55,7 @@ const PaymentStatus = () => {
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
               onClick={handleGoToOrders}
             >
-              Go to My Orders
+              Go to My Dashboard!!
             </button>
           )}
         </>
