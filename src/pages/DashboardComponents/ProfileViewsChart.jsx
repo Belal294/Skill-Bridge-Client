@@ -1,9 +1,7 @@
-// src/components/ProfileViewsChart.jsx
-import React from "react"
 import { Line } from "react-chartjs-2"
-import { LineChartIcon, ChevronDownIcon } from "./Icons" // Assuming Icons.jsx is in the same directory
+import { LineChartIcon, ChevronDownIcon } from "./Icons"
 
-const ProfileViewsChart = ({ timelineLabels, profileViews, chartRef }) => {
+const ProfileViewsChart = ({ timelineLabels, profileViews, chartRef, loading }) => {
   const chartData = {
     labels: timelineLabels,
     datasets: [
@@ -75,9 +73,16 @@ const ProfileViewsChart = ({ timelineLabels, profileViews, chartRef }) => {
           </span>
         </div>
       </div>
+
       <div className="p-4">
-        <div className="h-[300px] w-full">
-          <Line ref={chartRef} data={chartData} options={chartOptions} />
+        <div className="h-[300px] w-full flex items-center justify-center">
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-600"></div>
+            </div>
+          ) : (
+            <Line ref={chartRef} data={chartData} options={chartOptions} />
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,16 @@
 // src/components/FreelancerDashboard.jsx
 import { useState, useEffect, useRef } from "react"
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend } from "chart.js"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from "chart.js"
 import authApiClient from "../../services/auth-api-client"
 
 // Import the new components
@@ -11,27 +21,41 @@ import NotificationsSection from "./NotificationsSection"
 import OrdersSection from "./OrdersSection"
 import NotesSection from "./NotesSection"
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+)
 
 function FreelancerDashboard() {
   const [data, setData] = useState(null)
-  const chartRef = useRef(null) // chartRef is used directly by ProfileViewsChart now
+  const [loading, setLoading] = useState(true)
+  const chartRef = useRef(null)
 
   useEffect(() => {
     authApiClient
       .get("/freelancer-dashboard/")
-      .then(res => {
+      .then((res) => {
         setData(res.data)
+        setLoading(false)
         console.log("check data", res.data)
       })
-      .catch(err => console.error("Failed to fetch dashboard data", err))
+      .catch((err) => {
+        console.error("Failed to fetch dashboard data", err)
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-4 md:p-6">
         {/* Dashboard Header */}
-        <DashboardHeader/>
+        <DashboardHeader />
 
         {/* Summary Cards */}
         <DashboardSummaryCards data={data} />
@@ -43,6 +67,7 @@ function FreelancerDashboard() {
               timelineLabels={data ? data.timeline_labels : []}
               profileViews={data ? data.profile_views : []}
               chartRef={chartRef}
+              loading={loading}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
