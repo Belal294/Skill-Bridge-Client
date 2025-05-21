@@ -108,13 +108,13 @@ const Register = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
             {[
-              {
-                id: "username",
-                label: "Username",
-                placeholder: "john_doe",
-                type: "text",
-                validation: { required: "Username is required" },
-              },
+              // {
+              //   id: "username",
+              //   label: "Username",
+              //   placeholder: "john_doe",
+              //   type: "text",
+              //   validation: { required: "Username is required" },
+              // },
               {
                 id: "first_name",
                 label: "First Name",

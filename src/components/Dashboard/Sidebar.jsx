@@ -13,20 +13,32 @@ import useAuthContext from "../../hooks/useAuthContext";
 const Sidebar = () => {
   const { user } = useAuthContext();
 
-  const hasRole = (roles) => roles.includes(user?.role);
+  console.log("User Info:", user); // Debugging: check role, is_staff, is_superuser
+
+  const hasPermission = ({ roles = [], requireStaff = false, requireSuperUser = false }) => {
+    if (!user) return false;
+    const matchRole = roles.includes(user.role);
+    const isStaff = requireStaff && user.is_staff;
+    const isSuperUser = requireSuperUser && user.is_superuser;
+    return matchRole || isStaff || isSuperUser;
+  };
 
   const menuItems = [
     { to: "/dashboard", icon: FiBarChart2, label: "Dashboard" },
     { to: "/dashboard/shop", icon: FiPackage, label: "Products" },
 
-    ...(hasRole(["seller", "admin"])
+    ...(hasPermission({ roles: ["seller", "admin"], requireStaff: true })
       ? [{ to: "/dashboard/products/add", icon: FiPlusCircle, label: "Add Product" }]
       : []),
 
     { to: "/dashboard/categories", icon: FiTag, label: "Categories" },
 
-    ...(hasRole(["seller", "admin"])
+    ...(hasPermission({ roles: ["admin"], requireSuperUser: true })
       ? [{ to: "/dashboard/categories/add", icon: FiPlusCircle, label: "Add Category" }]
+      : []),
+
+    ...(hasPermission({ roles: ["admin"], requireSuperUser: true })
+      ? [{ to: "/dashboard/users", icon: FiUsers, label: "User List" }]
       : []),
 
     { to: "/dashboard/reviews", icon: FiStar, label: "Reviews" },
