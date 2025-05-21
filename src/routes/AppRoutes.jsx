@@ -27,6 +27,7 @@ import Order from "../components/Dashboard/Order";
 import AboutUs from "../pages/AboutUs";
 import ContactPage from "../components/CarouselSection/ContactPage";
 import AboutUsPage from "../components/CarouselSection/AboutPage";
+import AllUsers from "../pages/AllUsers";
 
 const AppRoutes = () => {
   return (
@@ -67,6 +68,7 @@ const AppRoutes = () => {
         <Route path="categories/add" element={<AddCategory />} />
         <Route path="notifications" element={<NotificationList />} />
         <Route path="shop" element={<Shop />} />
+        <Route path="users" element={<AllUsers />} />
         
         {/* Reviews Routes */}
         <Route path="reviews" element={<ReviewedServices />} />

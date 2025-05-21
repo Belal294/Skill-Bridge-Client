@@ -3,7 +3,13 @@ import { useState } from "react";
 import apiClient from "../services/api-client";
 
 const ResetPassword = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,44 +17,42 @@ const ResetPassword = () => {
   const emailValue = watch("email");
 
   const onSubmit = async (data) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      setError("Your email is not valid");
-      setMessage("");
-      return;
-    }
-
+    // Clear previous messages
     setError("");
     setMessage("");
     setLoading(true);
 
     try {
       console.log("Sending request with email:", data.email);
+
       const response = await apiClient.post("/auth/users/reset_password/", {
         email: data.email,
       });
+
       console.log("Response from API:", response);
-      setMessage("Password reset email sent. Please check your inbox.");
+
+      setMessage(
+        "If this email is registered, a password reset link has been sent."
+      );
     } catch (err) {
       console.error("Error caught in catch block:", err);
       console.error("Error response data:", err.response?.data);
 
+      // Handle specific error messages from API
       if (
         err.response?.data?.email &&
         Array.isArray(err.response.data.email) &&
         err.response.data.email.includes("User with this email does not exist.")
       ) {
-        setError("Not Found Your Email. Try Again..");
+        setError("Email not found. Please try again.");
       } else if (
         err.response?.data?.detail &&
         err.response.data.detail === "Not found."
       ) {
-        setError("Not Found Your Email. Try Again..");
+        setError("Email not found. Please try again.");
       } else {
-        setError("Failed to send password reset email. ❌");
+        setError("Failed to send password reset email. Please try later.");
       }
-
-      setMessage("");
     } finally {
       setLoading(false);
     }
@@ -59,18 +63,22 @@ const ResetPassword = () => {
       <div className="card w-full max-w-md bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl font-bold">Reset Password</h2>
-          <p className="text-base-content/70">Enter your email to reset your password.</p>
+          <p className="text-base-content/70 mb-4">
+            Enter your email to reset your password.
+          </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="form-control">
-              <label className="label" htmlFor="email">
+              <label htmlFor="email" className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
                 id="email"
                 type="email"
                 placeholder="name@example.com"
-                className={`input input-bordered w-full ${errors.email ? "input-error" : ""}`}
+                className={`input input-bordered w-full ${
+                  errors.email ? "input-error" : ""
+                }`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -78,6 +86,7 @@ const ResetPassword = () => {
                     message: "Please enter a valid email address",
                   },
                 })}
+                disabled={loading}
               />
               {errors.email && (
                 <span className="label-text-alt text-error">
@@ -99,8 +108,16 @@ const ResetPassword = () => {
             </button>
           </form>
 
-          {message && <p className="text-success mt-2">{message}</p>}
-          {error && <p className="text-error mt-2">{error}</p>}
+          {message && (
+            <p className="text-success mt-4" role="alert">
+              {message}
+            </p>
+          )}
+          {error && (
+            <p className="text-error mt-4" role="alert">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </div>

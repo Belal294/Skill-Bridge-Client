@@ -8,7 +8,7 @@ import authApiClient from "../services/auth-api-client";
 const Register = () => {
   const { registerUser, errorMsg } = useAuthContext();
   const [successMsg, setSuccessMsg] = useState("");
-  const [registeredEmail, setRegisteredEmail] = useState(""); 
+  const [registeredEmail, setRegisteredEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const {
@@ -23,10 +23,9 @@ const Register = () => {
     setLoading(true);
     try {
       const response = await registerUser(data);
-      console.log(response);
       if (response.success) {
         setSuccessMsg(response.message);
-        setRegisteredEmail(data.email); 
+        setRegisteredEmail(data.email);
       }
     } catch (error) {
       console.log("Registration failed", error);
@@ -35,34 +34,32 @@ const Register = () => {
     }
   };
 
-
-const handleResendActivation = async () => {
-  if (!registeredEmail) {
-    alert("No registered email found. Please register first.");
-    return;
-  }
-
-  try {
-    const res = await authApiClient.post("/auth/users/resend_activation/", {
-      email: registeredEmail,
-    });
-
-    if (res.status === 204 || res.status === 200) {
-      alert("✅ Activation email resent successfully!");
-    } else {
-      const result = res.data;
-      alert(result?.detail || result?.message || "❌ Failed to resend email.");
+  const handleResendActivation = async () => {
+    if (!registeredEmail) {
+      alert("No registered email found. Please register first.");
+      return;
     }
-  } catch (error) {
-    console.error("Resend activation error:", error);
-    alert(
-      error?.response?.data?.detail ||
-        error?.response?.data?.message ||
-        "❌ Error resending activation email"
-    );
-  }
-};
 
+    try {
+      const res = await authApiClient.post("/auth/users/resend_activation/", {
+        email: registeredEmail,
+      });
+
+      if (res.status === 204 || res.status === 200) {
+        alert("✅ Activation email resent successfully!");
+      } else {
+        const result = res.data;
+        alert(result?.detail || result?.message || "❌ Failed to resend email.");
+      }
+    } catch (error) {
+      console.error("Resend activation error:", error);
+      alert(
+        error?.response?.data?.detail ||
+          error?.response?.data?.message ||
+          "❌ Error resending activation email"
+      );
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-base-200">
@@ -98,6 +95,7 @@ const handleResendActivation = async () => {
                 <button
                   onClick={handleResendActivation}
                   className="btn btn-link text-primary p-0"
+                  disabled={loading}
                 >
                   Resend Activation Email
                 </button>
@@ -106,13 +104,10 @@ const handleResendActivation = async () => {
           )}
 
           <h2 className="card-title text-2xl font-bold mt-4">Sign Up</h2>
-          <p className="text-base-content/70">
-            Create an account to get started
-          </p>
+          <p className="text-base-content/70">Create an account to get started</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
-            {/* Input Fields */}
-            {[...[
+            {[
               {
                 id: "username",
                 label: "Username",
@@ -177,7 +172,7 @@ const handleResendActivation = async () => {
                     value === watch("password") || "Passwords do not match",
                 },
               },
-            ]].map(({ id, label, placeholder, type, validation = {} }) => (
+            ].map(({ id, label, placeholder, type, validation }) => (
               <div className="form-control" key={id}>
                 <label className="label" htmlFor={id}>
                   <span className="label-text">{label}</span>
@@ -186,7 +181,9 @@ const handleResendActivation = async () => {
                   id={id}
                   type={type}
                   placeholder={placeholder}
-                  className="input input-bordered w-full"
+                  className={`input input-bordered w-full ${
+                    errors[id] ? "input-error" : ""
+                  }`}
                   disabled={loading}
                   {...register(id, validation)}
                 />
@@ -205,10 +202,13 @@ const handleResendActivation = async () => {
               </label>
               <select
                 id="role"
-                className="select select-bordered w-full"
+                className={`select select-bordered w-full ${
+                  errors.role ? "input-error" : ""
+                }`}
                 disabled={loading}
                 {...register("role", { required: "Role is required" })}
               >
+                <option value="">Select Role</option>
                 <option value="buyer">Buyer</option>
                 <option value="seller">Seller</option>
               </select>
@@ -222,12 +222,12 @@ const handleResendActivation = async () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className={`btn btn-primary w-full ${loading ? "btn-disabled" : ""}`}
+              className={`btn btn-primary w-full ${
+                loading ? "btn-disabled" : ""
+              }`}
               disabled={loading}
             >
-              {loading && (
-                <span className="loading loading-spinner loading-sm mr-2" />
-              )}
+              {loading && <span className="loading loading-spinner loading-sm mr-2" />}
               {loading ? "Registering..." : "Register"}
             </button>
           </form>

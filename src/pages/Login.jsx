@@ -12,7 +12,6 @@ const Login = () => {
   } = useForm();
 
   const navigate = useNavigate();
-
   const { errorMsg, loginUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
 
@@ -24,9 +23,7 @@ const Login = () => {
     if (success) {
       navigate("/dashboard");
     }
-    
   };
-  
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-base-200">
@@ -51,6 +48,7 @@ const Login = () => {
                   errors.email ? "input-error" : ""
                 }`}
                 {...register("email", { required: "Email is required" })}
+                disabled={loading}
               />
               {errors.email && (
                 <span className="label-text-alt text-error">
@@ -68,9 +66,10 @@ const Login = () => {
                 type="password"
                 placeholder="••••••••"
                 className={`input input-bordered w-full ${
-                  errors.email ? "input-error" : ""
+                  errors.password ? "input-error" : ""
                 }`}
                 {...register("password", { required: "Password is required" })}
+                disabled={loading}
               />
               {errors.password && (
                 <span className="label-text-alt text-error">
@@ -88,12 +87,11 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="text-center">
+          <div className="text-center mt-4">
             <Link to="/reset-password" className="link link-primary text-sm">
               Forgot Password?
             </Link>
           </div>
-
 
           <div className="mt-4 flex justify-center">
             <p className="text-base-content/70 text-center">
@@ -103,7 +101,6 @@ const Login = () => {
               </Link>
             </p>
           </div>
-
         </div>
       </div>
     </div>
