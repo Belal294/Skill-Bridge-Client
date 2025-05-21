@@ -10,11 +10,8 @@ const ActivateAccount = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    const activationLink = `#/activate/${uid}/${token}`;
-
     apiClient
-      .post("/auth/users/activation/", { uid, token, link: activationLink })
+      .post("/auth/users/activation/", { uid, token })
       .then(() => {
         setMessage("Account activated successfully!");
         setTimeout(() => navigate("/login"), 2000); 
