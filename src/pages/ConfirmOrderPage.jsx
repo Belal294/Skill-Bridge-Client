@@ -64,7 +64,7 @@ const ConfirmOrderPage = () => {
               <p><span className="font-semibold">Name:</span> {product?.title}</p>
               <p><span className="font-semibold">Description:</span> {product?.description}</p>
               <p><span className="font-semibold">Price:</span> ${product?.price}</p>
-              <p><span className="font-semibold">Category:</span> {product?.category?.name}</p>
+              <p><span className="font-semibold">Category:</span> {product?.category?.title}</p>
               <p><span className="font-semibold">Delivery Time:</span> {product?.delivery_time}</p>
               <p><span className="font-semibold">Created At:</span> {new Date(product?.created_at).toLocaleDateString()}</p>
             </div>
