@@ -14,15 +14,6 @@ const Navbar = () => {
     navigate("/");
   };
 
-  // 🔒 Previously used to restrict access to routes like Categories & Services
-  // const handleProtectedNavigation = (e, path) => {
-  //   if (!user) {
-  //     e.preventDefault();
-  //     alert("Please log in first!");
-  //   } else {
-  //     navigate(path);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchUnread = async () => {

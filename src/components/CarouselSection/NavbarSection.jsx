@@ -57,12 +57,12 @@ const NavbarSection = () => {
       </div>
 
       {/* Nav Links */}
-      <nav className="hidden md:flex items-center gap-6">
+      <div className="hidden md:flex items-center gap-6">
         <Link to="/" className="text-gray-700 hover:text-indigo-600">Home</Link>
         <Link to="shop" className="text-gray-700 hover:text-indigo-600">Services</Link>
         <Link to="/about" className="text-gray-700 hover:text-indigo-600">About Us</Link>
         <Link to="/contact" className="text-gray-700 hover:text-indigo-600">Contact Us</Link>
-      </nav>
+      </div>
 
       {/* User Section */}
       <div className="flex items-center gap-4 relative">
