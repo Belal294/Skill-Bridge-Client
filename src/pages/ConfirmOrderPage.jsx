@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductImageGallery from "../components/ProductDetails/ProductImageGallery";
 import ReviewSection from "../components/Reviews/ReviewSection";
 import authApiClient from "../services/auth-api-client";
@@ -9,7 +9,10 @@ const ConfirmOrderPage = () => {
   const navigate = useNavigate();
   const { product } = location.state || {};
   const [loading, setLoading] = useState(false);
-  const [orderId, setOrderId] = useState(null);
+  const [_orderId, setOrderId] = useState(null);
+  const [categoryName, setCategoryName] = useState("");
+
+  console.log("check products", product);
 
   const handleConfirm = async () => {
     if (!product) {
@@ -27,7 +30,7 @@ const ConfirmOrderPage = () => {
       });
 
       const newOrderId = response.data.id;
-      setOrderId(newOrderId); // for ReviewSection
+      setOrderId(newOrderId);
 
       navigate("/dashboard/payment", {
         state: { orderId: newOrderId, product },
@@ -39,6 +42,21 @@ const ConfirmOrderPage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchCategoryName = async () => {
+      try {
+        if (product?.category) {
+          const response = await authApiClient.get(`/categories/${product.category}/`);
+          setCategoryName(response.data.name);
+        }
+      } catch (error) {
+        console.error("Failed to fetch category name:", error.response?.data || error);
+      }
+    };
+
+    fetchCategoryName();
+  }, [product]);
 
   const isOrderInformationMissing = !product;
 
@@ -64,7 +82,7 @@ const ConfirmOrderPage = () => {
               <p><span className="font-semibold">Name:</span> {product?.title}</p>
               <p><span className="font-semibold">Description:</span> {product?.description}</p>
               <p><span className="font-semibold">Price:</span> ${product?.price}</p>
-              <p><span className="font-semibold">Category:</span> {product?.category?.title}</p>
+              <p><span className="font-semibold">Category:</span> {categoryName}</p>
               <p><span className="font-semibold">Delivery Time:</span> {product?.delivery_time}</p>
               <p><span className="font-semibold">Created At:</span> {new Date(product?.created_at).toLocaleDateString()}</p>
             </div>
@@ -115,7 +133,7 @@ const ConfirmOrderPage = () => {
 
       {/* Review Section */}
       <div className="mt-12 w-full max-w-6xl">
-        <ReviewSection productId={product.id}/>
+        <ReviewSection productId={product?.id} />
       </div>
     </div>
   );
